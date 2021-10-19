@@ -1,6 +1,8 @@
 <?php
 
-namespace AutomateWoo;
+namespace To51\AW_Action;
+
+require_once __DIR__.'/Order_Edit_Product_Abstract.php';
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -45,7 +47,7 @@ class Action_Order_Add_Product extends Action_Order_Edit_Product_Abstract {
 	 */
 	public function load_admin_details() {
 		parent::load_admin_details();
-		$this->title       = __( 'Add Product', 'automatewoo' );
+		$this->title       = __( 'Add Product New', 'automatewoo' );
 		$this->description = __( 'Add a product as a new line item on a order. The item will be added using the price set on the product.', 'automatewoo' );
 	}
 
@@ -90,5 +92,9 @@ class Action_Order_Add_Product extends Action_Order_Edit_Product_Abstract {
 	 */
 	protected function get_note( $product ) {
 		return sprintf( __( '%1$s workflow run: added %2$s to order. (Product ID: %3$d; Workflow ID: %4$d)', 'automatewoo' ), $this->workflow->get_title(), $product->get_name(), $product->get_id(), $this->workflow->get_id() );
+	}
+
+	protected function edit_subscription( $object, $subscription ) {
+		// TODO: Implement edit_subscription() method.
 	}
 }

@@ -1,17 +1,22 @@
- <?php
- /**
+<?php
+
+/**
   * Plugin Name: AutomateWoo Order Add Product Action
   */
+namespace To51\AW_Action;
 
+class TO51_AW_Order_Add_Product{
+	public static function init() {
+		add_filter( 'automatewoo/actions',  array( __CLASS__, 'register_action' ) );
 
-  function register_action( $actions ) {
+	}
 
-    include_once ( plugin_dir_path( __FILE__ ) . 'includes/AbstractEditItem.php' );
-    include_once ( plugin_dir_path( __FILE__ ) . 'includes/Order_Edit_Product_Abstract.php' );
-    include_once ( plugin_dir_path( __FILE__ ) . 'includes/Order_Add_Product.php' );
+	function register_action( $actions ) {
+		require_once __DIR__ .'/includes/Order_Add_Product.php';
+		$actions['order_add_product_new'] = Action_Order_Add_Product::class;
 
-    $actions['order_add_product'] = 'AutomateWoo\Action_Order_Add_Product';
+		return $actions;
+	}
+}
 
-    return $actions;
-  }
-  add_filter( 'automatewoo/actions', 'register_action' );
+TO51_AW_Order_Add_Product::init();

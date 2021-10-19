@@ -1,6 +1,6 @@
 <?php
 
-namespace AutomateWoo;
+namespace To51\AW_Action;
 
 use AutomateWoo\Actions\Subscriptions\AbstractEditItem;
 
