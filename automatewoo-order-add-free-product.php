@@ -9,8 +9,9 @@
 	* Author URI:  https://wpspecialprojects.wordpress.com/
 	* License:     GPL v2 or later
   */
-	if ( ! defined( 'ABSPATH' ) ) {
-		exit; // Exit if accessed directly
-	}
 
-	require_once dirname( __FILE__ ) . '/class-automatewoo-order-add-free-product.php';
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly
+}
+
+require_once dirname( __FILE__ ) . '/class-automatewoo-order-add-free-product.php';
