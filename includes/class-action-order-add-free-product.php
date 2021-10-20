@@ -5,9 +5,11 @@ namespace To51\AW_Action;
 use AutomateWoo\Action;
 use AutomateWoo\Fields;
 
-if ( ! defined( 'ABSPATH' ) ) exit;
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
-class Action_Order_Add_Free_Product extends Action{
+class Action_Order_Add_Free_Product extends Action {
 
 
 	/**
@@ -15,7 +17,7 @@ class Action_Order_Add_Free_Product extends Action{
 	 *
 	 * @var array
 	 */
-	public $required_data_items = [ 'order' ];
+	public $required_data_items = array( 'order' );
 
 
 	/**
@@ -83,11 +85,7 @@ class Action_Order_Add_Free_Product extends Action{
 		if ( $this->load_name_field ) {
 			$this->add_name_field();
 		}
-
-		if ( $this->load_cost_field ) {
-			$this->add_cost_field();
-		}
-    }
+	}
 
 	/**
 	 * Add a product selection field for this action
@@ -135,34 +133,6 @@ class Action_Order_Add_Free_Product extends Action{
 	}
 
 	/**
-	 * Field to set a price when this action is run
-	 */
-	protected function add_cost_field() {
-		$cost_field = new Fields\Price();
-		$cost_field->set_name( 'line_item_cost' );
-		$cost_field->set_title( $this->get_cost_field_title() );
-		$cost_field->set_description( $this->get_cost_field_description() );
-		$cost_field->set_placeholder( __( 'E.g. 10.00', 'automatewoo' ) );
-		$cost_field->set_variable_validation();
-		$this->add_field( $cost_field );
-	}
-
-	/**
-	 * Get the title to display on the price field for this action
-	 */
-	protected function get_cost_field_title() {
-		return sprintf( __( 'Custom Item Cost %s', 'automatewoo' ), WC()->countries->ex_tax_or_vat() );
-	}
-
-
-	/**
-	 * Get the description to display on the price field for this action
-	 */
-	protected function get_cost_field_description() {
-		return __( 'Optionally set a custom amount, excluding tax, to use for the line item\'s cost. Do not include a currency symbol. Total line item cost will be this amount * line item\'s quantity.', 'automatewoo' );
-	}
-
-	/**
 	 * Field to set a name on the line item when this action is run
 	 */
 	protected function add_name_field() {
@@ -195,9 +165,10 @@ class Action_Order_Add_Free_Product extends Action{
 	 * Admin props include: title, group and description.
 	 */
 	protected function load_admin_details() {
-		$this->title = __( 'Add New Item', 'automatewoo' );
-		$this->group = __( 'Order', 'automatewoo' );
-    }
+		$this->title       = __( 'Add Free Product', 'automatewoo' );
+		$this->group       = __( 'Order', 'automatewoo' );
+		$this->description = __( 'Add free product to order as a line item. (Caution: Runs after checkout)', 'automatewoo' );
+	}
 
 	/**
 	 * Loads the action's admin props.
@@ -220,7 +191,7 @@ class Action_Order_Add_Free_Product extends Action{
 		$group = $this->get_group();
 		$title = $this->title ?: '';
 
-		if ( $prepend_group && $group !== __( 'Other', 'automatewoo' ) ) {
+		if ( $prepend_group && __( 'Other', 'automatewoo' ) !== $group ) {
 			return $group . ' - ' . $title;
 		}
 
@@ -278,14 +249,12 @@ class Action_Order_Add_Free_Product extends Action{
 		return '<p class="aw-field-description">' . $this->get_description() . '</p>';
 	}
 
-
-
 	function run() {
 		if ( ! $order = $this->workflow->data_layer()->get_order() ) {
 			return;
 		}
 		$product = wc_get_product( $this->get_option( 'product' ) );
-		$product->set_price('');
-		$order->add_product($product,1);
+		$product->set_price( '' );
+		$order->add_product( $product, 1 );
 	}
 }
