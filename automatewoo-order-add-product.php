@@ -12,10 +12,9 @@ class TO51_AW_Order_Add_Product{
 	}
 
 	function register_action( $actions ) {
-		require_once __DIR__ .'/includes/Order_Add_Product.php';
 		require_once __DIR__ .'/includes/Action_Order_Add_Free_Product.php';
-		$actions['order_add_product_new'] = Action_Order_Add_Product::class;
-		$actions[ 'yr_order_free_product' ] = Action_Order_Add_Free_Product::class;
+
+		$actions[ 'to51_add_free_product' ] = Action_Order_Add_Free_Product::class;
 		return $actions;
 	}
 }

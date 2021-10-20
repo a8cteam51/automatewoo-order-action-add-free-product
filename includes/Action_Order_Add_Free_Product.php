@@ -3,9 +3,7 @@
 namespace To51\AW_Action;
 
 use AutomateWoo\Action;
-use AutomateWoo\Actions\PreviewableInterface;
 use AutomateWoo\Fields;
-use AutomateWoo\Workflow;
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -26,7 +24,7 @@ class Action_Order_Add_Free_Product extends Action{
 	 *
 	 * @var bool
 	 */
-	protected $load_quantity_field = true;
+	protected $load_quantity_field = false;
 
 	/**
 	 * Flag to define whether the instance of this action requires a name text input field.
@@ -287,6 +285,7 @@ class Action_Order_Add_Free_Product extends Action{
 			return;
 		}
 		$product = wc_get_product( $this->get_option( 'product' ) );
-		$order->add_product($product);
+		$product->set_price('');
+		$order->add_product($product,1);
 	}
 }
