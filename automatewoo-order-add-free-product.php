@@ -1,5 +1,4 @@
 <?php
-
 /*
  * Plugin Name: AutomateWoo Order Action - Add Free Product
  * Plugin URI:  https://github.com/a8cteam51/automatewoo-order-action-add-free-product
