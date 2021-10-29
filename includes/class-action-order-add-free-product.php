@@ -39,14 +39,18 @@ class Action_Order_Add_Free_Product extends Action {
 	 */
 	public function load_fields() {
 		$this->add_product_select_field();
+	}
 
-		if ( $this->load_quantity_field ) {
-			$this->add_quantity_field();
-		}
+	/**
+	 * Add a product selection field for this action
+	 */
+	protected function add_product_select_field() {
+		$product_select = new Fields\Product();
+		$product_select->set_required();
+		$product_select->set_allow_variations( true );
+		$product_select->set_allow_variable( $this->allow_variable_products );
 
-		if ( $this->load_name_field ) {
-			$this->add_name_field();
-		}
+		$this->add_field( $product_select );
 	}
 
 	/**
