@@ -1,3 +1,6 @@
+| :exclamation:  This is a public repository |
+|--------------------------------------------|
+
 # AutomateWoo Order Action Add Free Product
 
 Extends the functionality of AutomateWoo with a custom action which allows you to add a free product to an order as a line item.
@@ -14,4 +17,7 @@ Also, note that any product added will be added as a free product (price of $0),
 
 ## Support
 
-This plugin is provided without any support or guarantees of functionality. If you'd like to contribute, feel free to open a PR on this repo.
+This plugin is provided without any support or guarantees of functionality. If you'd like to contribute, feel free to open a PR on this repo. If you have a request, please open an issue.
+
+> [!WARNING]  
+> Please test thoroughly before deploying to a production site.
