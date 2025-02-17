@@ -1,9 +1,14 @@
 | :exclamation:  This is a public repository |
 |--------------------------------------------|
 
-# AutomateWoo Order Action Add Free Product
+# AutomateWoo Order Action Add Free Product (Recalculate weight)
 
 Extends the functionality of AutomateWoo with a custom action which allows you to add a free product to an order as a line item.
+
+This branch has a custom "Recalculate weight" checkbox added to it.
+
+<img width="959" alt="Screenshot 2025-02-17 at 08 06 53" src="https://github.com/user-attachments/assets/905fd09c-b3d8-4c38-82d2-aa7e5af214f6" />
+
 
 ## Intended use
 
