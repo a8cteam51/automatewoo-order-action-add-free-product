@@ -40,6 +40,7 @@ class Action_Order_Add_Free_Product extends Action {
 	public function load_fields() {
 		$this->add_product_select_field();
 		$this->add_check_product_stock_field();
+		$this->add_recalculate_weight_field();
 	}
 
 	/**
@@ -75,6 +76,39 @@ class Action_Order_Add_Free_Product extends Action {
 		$field->set_title( __( 'Don\'t add out of stock products', 'automatewoo' ) );
 		$field->set_description( __( 'Don\'t add the product to the order if it\'s out of stock', 'automatewoo' ) );
 		$this->add_field( $field );
+	}
+
+	/**
+	 * Add a checkbox field to enable weight recalculation after adding the product.
+	 */
+	protected function add_recalculate_weight_field() {
+		$field = new \AutomateWoo\Fields\Checkbox();
+		$field->set_name( 'recalculate_weight' );
+		$field->set_title( __( 'Recalculate order weight?', 'automatewoo' ) );
+		$field->set_description( __( 'Recalculate the total order weight after adding the free product', 'automatewoo' ) );
+		$this->add_field( $field );
+	}
+
+	/**
+	 * Recalculates the total weight of an order
+	 *
+	 * @param \WC_Order $order The order object.
+	 */
+	protected function recalculate_order_weight( $order ) {
+		if ( ! $order ) {
+			return;
+		}
+
+		$weight = 0;
+
+		foreach ( $order->get_items() as $item ) {
+			$product = $item->get_product();
+			if ( $product && $product->has_weight() ) {
+				$weight += (float) $product->get_weight() * $item->get_quantity();
+			}
+		}
+
+		update_post_meta( $order->get_id(), '_cart_weight', $weight );
 	}
 
 	/**
@@ -132,14 +166,23 @@ class Action_Order_Add_Free_Product extends Action {
 				)
 			);
 
-			$order->add_order_note(
-				sprintf(
-					/* translators: %1$s: Product name, %2$s: Workflow name */
-					__( 'The product "%1$s" was added to the order by the "%2$s" workflow.', 'automatewoo' ),
-					$product_name,
-					$workflow_name
-				)
+			// Save the order to ensure the new product is properly added
+			$order->save();
+
+			$note = sprintf(
+				/* translators: %1$s: Product name, %2$s: Workflow name */
+				__( 'The product "%1$s" was added to the order by the "%2$s" workflow.', 'automatewoo' ),
+				$product_name,
+				$workflow_name
 			);
+
+			// Check if weight recalculation is enabled and perform it
+			if ( $this->get_option( 'recalculate_weight' ) ) {
+				$this->recalculate_order_weight( $order );
+				$note .= ' ' . __( 'Order weight was recalculated.', 'automatewoo' );
+			}
+
+			$order->add_order_note( $note );
 		}
 	}
 }
